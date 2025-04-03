@@ -1,9 +1,10 @@
+use colored::Colorize;
 use std::collections::{HashMap, HashSet};
 
 use gskits::{
     ds::ReadInfo,
     gsbam::read_bam,
-    pbar::{DEFAULT_INTERVAL, get_spin_pb},
+    pbar::{get_spin_pb, DEFAULT_INTERVAL},
 };
 use rust_htslib::bam::{self, Read};
 
@@ -86,11 +87,11 @@ pub fn bam_diff(bam_diff_args: &BamDiffArgs) {
     }
     pbar.finish();
     let stat_counts = diff_stat.finish();
-
+    print!("BamDiffCheck: ");
     if stat_counts.succ() {
-        println!("succ");
+        println!("{}", "Successed".green());
     } else {
-        println!("failed");
+        println!("{}", "Failed".red());
     }
 
     println!("{:#?}", stat_counts);
