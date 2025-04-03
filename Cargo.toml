@@ -2,5 +2,16 @@
 name = "gstest-kits"
 version = "0.1.0"
 edition = "2024"
+description = "gstest kits"
+license = "MIT"
+repository ="https://github.com/keithyin/gstest-kits"
+
+[[bin]]
+name = "gstest-kits"
+path = "src/bin/gstest_kits.rs"
+
 
 [dependencies]
+gskits = "0.15"
+rust-htslib = "0.49"
+clap = {version="4.4.14", features=["derive"]}
