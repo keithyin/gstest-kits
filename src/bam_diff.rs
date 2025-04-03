@@ -86,5 +86,14 @@ pub fn bam_diff(bam_diff_args: &BamDiffArgs) {
     }
     pbar.finish();
     let stat_counts = diff_stat.finish();
-    assert!(stat_counts.succ(), "{:?}", stat_counts);
+
+    if stat_counts.succ() {
+        println!("succ");
+    } else {
+        println!("failed");
+    }
+
+    println!("{:?}", stat_counts);
+
+    assert!(stat_counts.succ());
 }
