@@ -93,7 +93,7 @@ pub fn bam_diff(bam_diff_args: &BamDiffArgs) {
         println!("failed");
     }
 
-    println!("{:?}", stat_counts);
+    println!("{:#?}", stat_counts);
 
     assert!(stat_counts.succ());
 }
