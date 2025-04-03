@@ -53,6 +53,10 @@ impl DiffStat {
                 self.stat_counts.seq_diff += 1;
             }
 
+            if (a_read_info.rq.unwrap_or(0.) - read_info.rq.unwrap_or(0.)).abs() > 1e-3 {
+                self.stat_counts.qual_diff += 1;
+            }
+
             self.base_line_read_infos.remove(&read_info.ch.unwrap());
         } else {
             self.stat_counts.in_b_not_in_a += 1;
