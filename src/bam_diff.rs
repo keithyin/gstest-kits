@@ -53,6 +53,10 @@ impl DiffStat {
                 self.stat_counts.seq_diff += 1;
             }
 
+            if (a_read_info.rq.unwrap_or(0.) - read_info.rq.unwrap_or(0.)).abs() > 1e-3 {
+                self.stat_counts.qual_diff += 1;
+            }
+
             self.base_line_read_infos.remove(&read_info.ch.unwrap());
         } else {
             self.stat_counts.in_b_not_in_a += 1;
@@ -87,13 +91,15 @@ pub fn bam_diff(bam_diff_args: &BamDiffArgs) {
     }
     pbar.finish();
     let stat_counts = diff_stat.finish();
+    println!("");
     print!("BamDiffCheck: ");
     if stat_counts.succ() {
         println!("{}", "Successed".green());
     } else {
         println!("{}", "Failed".red());
     }
-
+    
+    println!("");
     println!("{:#?}", stat_counts);
 
     assert!(stat_counts.succ());
