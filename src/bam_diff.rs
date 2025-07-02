@@ -31,12 +31,12 @@ impl StatCounts {
 }
 
 struct DiffStat {
-    base_line_read_infos: HashMap<u32, ReadInfo>,
+    base_line_read_infos: HashMap<String, ReadInfo>,
     stat_counts: StatCounts,
 }
 
 impl DiffStat {
-    fn new(base_line_read_infos: HashMap<u32, ReadInfo>) -> Self {
+    fn new(base_line_read_infos: HashMap<String, ReadInfo>) -> Self {
         let a_tot = base_line_read_infos.len();
         let mut counts = StatCounts::default();
         counts.a_tot = a_tot;
@@ -48,7 +48,7 @@ impl DiffStat {
 
     fn check(&mut self, read_info: &ReadInfo) {
         self.stat_counts.b_tot += 1;
-        if let Some(a_read_info) = self.base_line_read_infos.get(&read_info.ch.unwrap()) {
+        if let Some(a_read_info) = self.base_line_read_infos.get(&read_info.name) {
             if a_read_info.seq != read_info.seq {
                 self.stat_counts.seq_diff += 1;
             }
@@ -57,7 +57,7 @@ impl DiffStat {
                 self.stat_counts.qual_diff += 1;
             }
 
-            self.base_line_read_infos.remove(&read_info.ch.unwrap());
+            self.base_line_read_infos.remove(&read_info.name);
         } else {
             self.stat_counts.in_b_not_in_a += 1;
         }
@@ -73,7 +73,7 @@ pub fn bam_diff(bam_diff_args: &BamDiffArgs) {
     let a_bam = read_bam(&bam_diff_args.a_bam, Some(40));
     let a_bam = a_bam
         .into_iter()
-        .map(|read_info| (read_info.ch.unwrap(), read_info))
+        .map(|read_info| (read_info.name.clone(), read_info))
         .collect::<HashMap<_, _>>();
 
     let mut b_reader = bam::Reader::from_path(&bam_diff_args.b_bam).unwrap();
