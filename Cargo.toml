@@ -1,6 +1,6 @@
 [package]
 name = "gstest-kits"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 description = "gstest kits"
 license = "MIT"
@@ -16,4 +16,4 @@ gskits = "0.15"
 rust-htslib = "0.49"
 clap = {version="4.4.14", features=["derive"]}
 colored = "3"
-
+num_cpus = "1.17.0"
